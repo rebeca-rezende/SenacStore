@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from StoreApp.models import Departamento, Produto
 from StoreApp.forms import ContatoForm
+from django.core.mail import send_mail
 
 # Create your views here.
 def index(request):
@@ -41,6 +42,18 @@ def empresa(request):
     return render(request, 'empresa.html')
 
 def contato(request):
+
+    if request.method == 'POST':
+        nome = request.POST['nome']
+        telefone = request.POST['telefone']
+        assunto = request.POST['assunto']
+        mensagem = request.POST['mensagem']
+        remetente = request.POST['remetente']
+        destinatario = ['rebeca.rezende7@gmail.com']
+        corpo = f'Nome: {nome} \nTelefone: {telefone} \nMensagem: {mensagem}'
+
+        send_mail(assunto, corpo, remetente, destinatario)
+
     formulario = ContatoForm()
     context = {
         'form_contato': formulario
