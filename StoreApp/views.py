@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from StoreApp.models import Departamento, Produto
 from StoreApp.forms import ContatoForm
+from StoreApp.forms import ClienteForm
 from django.core.mail import send_mail
 
 # Create your views here.
@@ -43,6 +44,9 @@ def empresa(request):
 
 def contato(request):
 
+    mensagem = ''
+
+
     if request.method == 'POST':
         nome = request.POST['nome']
         telefone = request.POST['telefone']
@@ -52,10 +56,31 @@ def contato(request):
         destinatario = ['rebeca.rezende7@gmail.com']
         corpo = f'Nome: {nome} \nTelefone: {telefone} \nMensagem: {mensagem}'
 
-        send_mail(assunto, corpo, remetente, destinatario)
+
+
+        try:
+            send_mail(assunto, corpo, remetente, destinatario)
+            mensagem = 'Mensagem enviada com sucesso!'
+        except:
+            mensagem = 'Erro ao enviar mensagem.'
 
     formulario = ContatoForm()
     context = {
-        'form_contato': formulario
+        'form_contato': formulario, 
+        'mensagem': mensagem
     }
     return render(request, 'contato.html', context)
+
+
+
+def cadastro(request):
+    formulario = ClienteForm()
+    mensagem = ''
+
+    context = {
+        'form_cadastro': formulario,
+        'mensagem': mensagem
+
+    }
+
+    return render(request, 'cadastro.html', context)
