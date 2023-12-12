@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+import pymysql
+
+pymysql.version_info = (1, 4, 6, 'final', 0)
+pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,7 +44,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'StoreApp',
 	'crispy_forms',
-	'crispy_bootstrap5'
+	'crispy_bootstrap5',
+    'cloudinary_storage',
+	'cloudinary'
         ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
@@ -83,8 +89,12 @@ WSGI_APPLICATION = 'SenacStore.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': 'railway',
+        'USER': 'root',
+        'PASSWORD': '4CEg2Dagf3HdhGEEBHbc4A1dHfaBf5c1',
+        'HOST': 'monorail.proxy.rlwy.net',
+        'PORT': '26074',
     }
 }
 
@@ -142,3 +152,12 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'rebeca.rezende7@gmail.com'
 EMAIL_HOST_PASSWORD = 'gqet dwfr efeh xrhc'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dtpn0gu8v',
+    'API_KEY': '668347497189223',
+    'API_SECRET': 'SOmK1B7dCt_KUwCmJjfQ6Nho0gA',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
