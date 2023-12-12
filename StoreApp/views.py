@@ -51,8 +51,8 @@ def contato(request):
         nome = request.POST['nome']
         telefone = request.POST['telefone']
         assunto = request.POST['assunto']
-        mensagem = request.POST['mensagem']
-        remetente = request.POST['remetente']
+        mensagem = request.POST['remetente']
+        remetente = request.POST['email']
         destinatario = ['rebeca.rezende7@gmail.com']
         corpo = f'Nome: {nome} \nTelefone: {telefone} \nMensagem: {mensagem}'
 
@@ -74,8 +74,20 @@ def contato(request):
 
 
 def cadastro(request):
-    formulario = ClienteForm()
+
     mensagem = ''
+
+    if request.method == 'POST':
+        formulario = ClienteForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            formulario = ClienteForm()
+            mensagem =  'Cliente cadastrado com sucesso!'
+        else:
+            mensagem = 'Verifique os erros abaixo: '
+    else:   
+        formulario = ClienteForm()
+    
 
     context = {
         'form_cadastro': formulario,
