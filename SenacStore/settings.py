@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+from decouple import config
 import pymysql
 
 pymysql.version_info = (1, 4, 6, 'final', 0)
@@ -25,13 +26,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-raqe+#hi!^ru6a)tf#=sjq98&7mpuwn5-6dgf@m@g@eq&tow5r'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# Para aceitar qualquer endereço ou específico da hospedagem.
+ALLOWED_HOSTS = ['*']    
 
+# Endereços aceitos para o envio de formulários
+CSRF_TRUSTED_ORIGINS  = ['*']
 
 # Application definition
 
@@ -90,11 +94,11 @@ WSGI_APPLICATION = 'SenacStore.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'railway',
-        'USER': 'root',
-        'PASSWORD': '4CEg2Dagf3HdhGEEBHbc4A1dHfaBf5c1',
-        'HOST': 'monorail.proxy.rlwy.net',
-        'PORT': '26074',
+        'NAME': config('DATABASE_NAME'),
+        'USER': config('DATABASE_USER'),
+        'PASSWORD': config('DATABASE_PASSWORD'),
+        'HOST': config('DATABASE_HOST'),
+        'PORT': config('DATABASE_PORT'),
     }
 }
 
@@ -150,13 +154,13 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'rebeca.rezende7@gmail.com'
-EMAIL_HOST_PASSWORD = 'gqet dwfr efeh xrhc'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dtpn0gu8v',
-    'API_KEY': '668347497189223',
-    'API_SECRET': 'SOmK1B7dCt_KUwCmJjfQ6Nho0gA',
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': config('CLOUDINARY_API_KEY'),
+    'API_SECRET': config('CLOUDINARY_API_SECRET'),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
